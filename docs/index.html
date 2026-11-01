@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preventivi Botosan Multiservizi — Download e aggiornamenti</title>
+<meta name="description" content="Scarica e aggiorna il programma Preventivi di Botosan Multiservizi.">
+<link rel="icon" href="logo.png">
+<style>
+  :root{ --blu:#1b2a4a; --azz:#eef2f8; --bordo:#d7e0ec; --verde:#2aa17d; }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;
+    color:var(--blu);background:#fff;line-height:1.6;
+  }
+  header{
+    padding:30px 24px;border-bottom:1px solid var(--bordo);
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  header img{height:46px}
+  header .t{font-size:12px;letter-spacing:2px;color:#7a8aa3}
+  .hero{max-width:900px;margin:0 auto;padding:60px 24px 30px;text-align:center}
+  .hero h1{font-size:40px;margin:0 0 10px;letter-spacing:-.5px}
+  .hero p{font-size:17px;color:#5a6b86;margin:0 auto 28px;max-width:600px}
+  .ver{
+    display:inline-block;background:var(--azz);color:var(--blu);
+    border-radius:99px;padding:5px 16px;font-size:13px;font-weight:600;margin-bottom:22px;
+  }
+  .btn{
+    display:inline-block;background:var(--blu);color:#fff;text-decoration:none;
+    padding:15px 34px;border-radius:9px;font-weight:700;font-size:16px;
+  }
+  .btn:hover{background:#24365c}
+  .btn.sec{background:#fff;color:var(--blu);border:1px solid var(--bordo);margin-left:10px}
+  .note{font-size:13px;color:#8a97ad;margin-top:16px}
+
+  .sez{max-width:900px;margin:0 auto;padding:40px 24px;border-top:1px solid var(--bordo)}
+  .sez h2{font-size:22px;margin:0 0 18px}
+  .griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .box{border:1px solid var(--bordo);border-radius:10px;padding:18px}
+  .box h3{margin:0 0 6px;font-size:15px}
+  .box p{margin:0;font-size:14px;color:#5a6b86}
+  ol{padding-left:20px}
+  ol li{margin-bottom:8px}
+  code{background:var(--azz);padding:2px 7px;border-radius:4px;font-size:13px}
+  .avviso{background:var(--azz);border-left:4px solid var(--blu);padding:14px 18px;border-radius:0 8px 8px 0;font-size:14px}
+  footer{padding:30px 24px;text-align:center;font-size:12px;color:#8a97ad;border-top:1px solid var(--bordo)}
+  footer a{color:#5a6b86}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Botosan Multiservizi">
+  <span class="t">TRASLOCHI &bull; TRASPORTI &bull; DEPOSITO &bull; SERVIZI PER LA CASA</span>
+</header>
+
+<section class="hero">
+  <div class="ver" id="versione">Ultima versione</div>
+  <h1>Preventivi Botosan</h1>
+  <p>Il programma per Windows che compila i preventivi, calcola i totali
+     e salva il PDF pronto da inviare al cliente, con copia automatica in archivio.</p>
+  <a class="btn" id="download" href="https://github.com/simoxst91-lgtm/preventivi-botosan/releases/latest">
+    Scarica per Windows
+  </a>
+  <a class="btn sec" href="https://github.com/simoxst91-lgtm/preventivi-botosan/releases">Tutte le versioni</a>
+  <p class="note">Windows 10 / 11 &nbsp;&bull;&nbsp; 64 bit &nbsp;&bull;&nbsp; installazione in un minuto</p>
+</section>
+
+<section class="sez">
+  <h2>Cosa fa</h2>
+  <div class="griglia">
+    <div class="box">
+      <h3>Modulo identico al cartaceo</h3>
+      <p>Dati cliente, dettagli del trasloco, servizi richiesti, costi, note e firme.</p>
+    </div>
+    <div class="box">
+      <h3>Righe illimitate</h3>
+      <p>Aggiungi tutti i riquadri che servono nella tabella costi e nuove voci di servizio.</p>
+    </div>
+    <div class="box">
+      <h3>Calcoli automatici</h3>
+      <p>Imponibile, IVA, totale, acconto e saldo si aggiornano mentre scrivi.</p>
+    </div>
+    <div class="box">
+      <h3>PDF su una pagina</h3>
+      <p>Esce sempre in A4 ordinato, anche con molte righe.</p>
+    </div>
+    <div class="box">
+      <h3>Archivio automatico</h3>
+      <p>Ogni preventivo generato resta salvato nel programma e si riapre con un clic.</p>
+    </div>
+    <div class="box">
+      <h3>Si aggiorna da solo</h3>
+      <p>Quando esce una versione nuova il programma la scarica e la installa alla chiusura.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sez">
+  <h2>Come si installa</h2>
+  <ol>
+    <li>Premi <strong>Scarica per Windows</strong> e salva il file <code>Preventivi-Botosan-Setup.exe</code>.</li>
+    <li>Doppio clic sul file scaricato.</li>
+    <li>Se Windows mostra l'avviso “Windows ha protetto il PC”, premi
+        <strong>Ulteriori informazioni</strong> e poi <strong>Esegui comunque</strong>:
+        succede perché l'installer non ha la firma digitale a pagamento.</li>
+    <li>Scegli la cartella e completa l'installazione: trovi l'icona sul desktop.</li>
+  </ol>
+</section>
+
+<section class="sez">
+  <h2>Aggiornamenti</h2>
+  <p>Non devi fare niente: all'avvio il programma controlla se esiste una versione più recente,
+     la scarica in background e la installa quando chiudi. In alto a destra, accanto ai pulsanti,
+     vedi sempre la versione installata; se compare <strong>Installa</strong>, un clic riavvia
+     il programma già aggiornato.</p>
+  <p class="avviso">Vuoi forzare il controllo? Clicca sul numero di versione in alto a destra nel programma.</p>
+</section>
+
+<section class="sez">
+  <h2>Dove finiscono i preventivi</h2>
+  <p>Il PDF viene salvato dove lo scegli tu, e in più una copia di sicurezza resta sempre in:</p>
+  <p><code>C:\Users\&lt;tuo utente&gt;\AppData\Roaming\Preventivi Botosan\Archivio</code></p>
+  <p>Dal pulsante <strong>Archivio</strong> dentro il programma apri l'elenco completo, riapri un
+     vecchio preventivo o apri direttamente la cartella su disco.</p>
+</section>
+
+<footer>
+  Botosan Multiservizi &mdash; Via G. Marconi, 12 &ndash; 20065 Inzago (MI) &mdash; P. IVA 11532420962<br>
+  <a href="https://www.botosanmultiservizi.it">www.botosanmultiservizi.it</a> &nbsp;&bull;&nbsp;
+  <a href="mailto:info@botosanmultiservizi.it">info@botosanmultiservizi.it</a>
+</footer>
+
+<script>
+// Mostra in automatico l'ultima versione pubblicata e il link diretto al setup.
+fetch('https://api.github.com/repos/simoxst91-lgtm/preventivi-botosan/releases/latest')
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(rel => {
+    document.getElementById('versione').textContent =
+      'Ultima versione ' + rel.tag_name;
+    const exe = (rel.assets || []).find(a => a.name.toLowerCase().endsWith('.exe'));
+    if (exe) document.getElementById('download').href = exe.browser_download_url;
+  })
+  .catch(() => {});
+</script>
+
+</body>
+</html>

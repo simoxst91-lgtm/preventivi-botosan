@@ -1,0 +1,74 @@
+PREVENTIVI BOTOSAN MULTISERVIZI - v1.0.0
+Programma Windows per compilare e stampare in PDF i preventivi.
+
+=============================================================
+1) CREARE IL PROGRAMMA INSTALLABILE
+=============================================================
+1. Installa Node.js LTS da https://nodejs.org (una volta sola)
+2. Doppio clic su COSTRUISCI-WINDOWS.bat
+3. In dist\ trovi: Preventivi-Botosan-Setup-1.0.0.exe
+   E' l'installer: lo lanci e il programma si installa con
+   icona sul desktop e nel menu Start.
+
+Per provarlo senza installarlo: AVVIA-PROVA.bat
+
+=============================================================
+2) COME SI USA
+=============================================================
+- Compili il modulo, identico al PDF che usi gia'.
+- "+ Aggiungi riquadro" aggiunge righe alla tabella costi
+  (quante ne vuoi); la "x" a fine riga la toglie.
+- "+ Aggiungi servizio" aggiunge voci alla sezione 3.
+- Totali, IVA e saldo si calcolano da soli.
+- "Genera PDF": ti chiede dove salvare il PDF e NELLO STESSO
+  MOMENTO salva sempre una copia di sicurezza in:
+     C:\Users\<tuo utente>\AppData\Roaming\Preventivi Botosan\Archivio
+- "Archivio": elenco dei PDF salvati + le bozze dei dati.
+- "Nuovo": svuota il modulo.
+- In alto a destra c'e' il numero di versione: cliccandolo
+  controlli subito se ci sono aggiornamenti.
+
+Il PDF esce sempre su una sola pagina A4: con tante righe il
+programma rimpicciolisce leggermente il contenuto da solo.
+
+=============================================================
+3) AGGIORNAMENTO AUTOMATICO - PREPARAZIONE (una volta sola)
+=============================================================
+a) Crea su GitHub un repository PUBBLICO chiamato:
+      simoxst91-lgtm/preventivi-botosan
+   DEVE essere pubblico, altrimenti l'aggiornamento automatico
+   non funziona (stesso problema avuto con gama-consuntivi).
+
+   Se preferisci un altro nome/account, cambialo in 2 punti:
+     - package.json  -> build.publish (owner e repo)
+     - docs\index.html -> i link e la riga fetch(...)
+
+b) Carica il contenuto di questa cartella nel repository.
+
+c) Crea un token GitHub su https://github.com/settings/tokens
+   (token classic, spunta solo "repo"), poi nel Prompt dei
+   comandi lancia una volta sola:
+      setx GH_TOKEN "il_tuo_token"
+   Chiudi e riapri la finestra.
+
+d) Nel repository: Settings -> Pages -> Source: "Deploy from a
+   branch", branch main, cartella /docs. La pagina pubblica
+   di download sara':
+      https://simoxst91-lgtm.github.io/preventivi-botosan/
+
+=============================================================
+4) PUBBLICARE UN AGGIORNAMENTO
+=============================================================
+1. Doppio clic su PUBBLICA-AGGIORNAMENTO.bat
+2. Ti chiede la nuova versione:
+      correzione di un errore -> 1.0.1
+      funzione nuova          -> 1.1.0
+3. Lo script chiude il programma, crea l'installer e carica
+   la release su GitHub come BOZZA.
+4. Vai su github.com/simoxst91-lgtm/preventivi-botosan/releases,
+   apri la bozza e premi "Publish release".
+
+Da quel momento tutti i PC con il programma installato
+scaricano l'aggiornamento da soli al primo avvio e lo
+installano alla chiusura. Chi ha la finestra aperta vede
+comparire in alto a destra il pulsante verde "Installa".

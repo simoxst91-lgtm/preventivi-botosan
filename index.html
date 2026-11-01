@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Preventivi Botosan Multiservizi</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <img src="assets/logo.png" class="logo-top" alt="Botosan">
+  <div class="topbar-txt">
+    <strong>PREVENTIVI</strong>
+    <span>Botosan Multiservizi</span>
+  </div>
+  <div class="topbar-actions">
+    <div id="agg-box" class="agg" title="Controlla aggiornamenti">
+      <span id="agg-testo">v…</span>
+    </div>
+    <button id="btn-nuovo" class="btn ghost">Nuovo</button>
+    <button id="btn-bozza" class="btn ghost">Salva bozza</button>
+    <button id="btn-archivio" class="btn ghost">Archivio</button>
+    <button id="btn-pdf" class="btn primary">Genera PDF</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- intestazione preventivo -->
+  <section class="card">
+    <div class="grid4">
+      <label>N. PREVENTIVO<input id="numero" type="text"></label>
+      <label>DATA<input id="data" type="date"></label>
+      <label>VALIDITÀ<input id="validita" type="text" value="30 giorni"></label>
+      <label>DATA INTERVENTO<input id="dataIntervento" type="text"></label>
+    </div>
+  </section>
+
+  <!-- 1 dati cliente -->
+  <section class="card">
+    <h2>1. DATI CLIENTE</h2>
+    <div class="grid3">
+      <label>NOME / AZIENDA<input id="cliente" type="text"></label>
+      <label>TELEFONO<input id="telefono" type="text"></label>
+      <label>E-MAIL<input id="email" type="text"></label>
+    </div>
+    <div class="grid-ind">
+      <label>INDIRIZZO DI PARTENZA<input id="partenza" type="text"></label>
+      <label>PIANO<input id="pianoP" type="text"></label>
+      <label class="chk"><input id="ascP" type="checkbox"> Ascensore</label>
+    </div>
+    <div class="grid-ind">
+      <label>INDIRIZZO DI DESTINAZIONE<input id="destinazione" type="text"></label>
+      <label>PIANO<input id="pianoD" type="text"></label>
+      <label class="chk"><input id="ascD" type="checkbox"> Ascensore</label>
+    </div>
+  </section>
+
+  <!-- 2 dettagli -->
+  <section class="card">
+    <h2>2. DETTAGLI DEL TRASLOCO</h2>
+    <div class="tipologia">
+      <span class="lbl">TIPOLOGIA</span>
+      <label class="chk"><input type="radio" name="tipologia" value="Abitazione"> Abitazione</label>
+      <label class="chk"><input type="radio" name="tipologia" value="Ufficio / studio"> Ufficio / studio</label>
+      <label class="chk"><input type="radio" name="tipologia" value="Negozio"> Negozio</label>
+      <label class="chk"><input type="radio" name="tipologia" value="Altro"> Altro</label>
+    </div>
+    <label class="full">DISTANZA / NOTE ACCESSO<input id="distanza" type="text"></label>
+  </section>
+
+  <!-- 3 servizi -->
+  <section class="card">
+    <h2>3. SERVIZI RICHIESTI</h2>
+    <div id="servizi" class="servizi"></div>
+    <div class="row-add">
+      <input id="nuovoServizio" type="text" placeholder="Aggiungi una voce di servizio…">
+      <button id="btn-add-servizio" class="btn small">+ Aggiungi servizio</button>
+    </div>
+  </section>
+
+  <!-- 4 costi -->
+  <section class="card">
+    <h2>4. DESCRIZIONE E COSTI</h2>
+    <table class="tab-costi">
+      <thead>
+        <tr>
+          <th class="c-desc">DESCRIZIONE SERVIZIO</th>
+          <th class="c-num">Q.TÀ</th>
+          <th class="c-num">PREZZO UNIT. €</th>
+          <th class="c-num">SCONTO €</th>
+          <th class="c-num">TOTALE €</th>
+          <th class="c-del"></th>
+        </tr>
+      </thead>
+      <tbody id="righe"></tbody>
+    </table>
+    <button id="btn-add-riga" class="btn small">+ Aggiungi riquadro</button>
+
+    <div class="totali">
+      <label>IMPONIBILE €<input id="imponibile" type="text" readonly></label>
+      <label>IVA %<input id="ivaPerc" type="number" value="22" step="1"></label>
+      <label>IVA €<input id="ivaVal" type="text" readonly></label>
+      <label>TOTALE €<input id="totale" type="text" readonly></label>
+    </div>
+    <div class="totali">
+      <label>ACCONTO €<input id="acconto" type="number" step="0.01"></label>
+      <label>SALDO €<input id="saldo" type="text" readonly></label>
+      <label class="w2">PAGAMENTO<input id="pagamento" type="text"></label>
+    </div>
+  </section>
+
+  <!-- 5 note -->
+  <section class="card">
+    <h2>5. NOTE, ESCLUSIONI E CONDIZIONI</h2>
+    <textarea id="note" rows="4"></textarea>
+    <p class="mini">Importi e aliquota IVA da verificare in base al servizio concordato e al regime fiscale applicabile.</p>
+    <p class="mini">Permessi, soste, materiali extra, deposito e smaltimenti sono inclusi solo se indicati nel preventivo.</p>
+  </section>
+
+</main>
+
+<!-- pannello archivio -->
+<div id="overlay" class="overlay hidden">
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Archivio preventivi</h3>
+      <button id="btn-chiudi" class="btn ghost small">Chiudi</button>
+    </div>
+    <div class="tabs">
+      <button class="tab attiva" data-tab="pdf">PDF salvati</button>
+      <button class="tab" data-tab="bozze">Bozze</button>
+    </div>
+    <div id="lista-pdf" class="lista"></div>
+    <div id="lista-bozze" class="lista hidden"></div>
+    <button id="btn-cartella" class="btn ghost small">Apri cartella su disco</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="template.js"></script>
+<script src="renderer.js"></script>
+</body>
+</html>

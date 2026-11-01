@@ -1,0 +1,45 @@
+{
+  "name": "preventivi-botosan",
+  "version": "1.0.0",
+  "description": "Generatore preventivi Botosan Multiservizi",
+  "main": "main.js",
+  "author": "Botosan Multiservizi",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "publish": "electron-builder --win --publish always"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "it.botosanmultiservizi.preventivi",
+    "productName": "Preventivi Botosan",
+    "directories": { "output": "dist" },
+    "files": ["**/*", "!dist/**", "!docs/**", "!*.bat", "!LEGGIMI.txt"],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "simoxst91-lgtm",
+        "repo": "preventivi-botosan",
+        "releaseType": "release"
+      }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Preventivi Botosan",
+      "artifactName": "Preventivi-Botosan-Setup-${version}.${ext}"
+    }
+  }
+}
