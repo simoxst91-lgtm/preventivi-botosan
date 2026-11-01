@@ -1,4 +1,4 @@
-PREVENTIVI BOTOSAN MULTISERVIZI - v1.0.0
+PREVENTIVI BOTOSAN MULTISERVIZI - v1.1.0
 Programma Windows per compilare e stampare in PDF i preventivi.
 
 =============================================================
@@ -6,7 +6,7 @@ Programma Windows per compilare e stampare in PDF i preventivi.
 =============================================================
 1. Installa Node.js LTS da https://nodejs.org (una volta sola)
 2. Doppio clic su COSTRUISCI-WINDOWS.bat
-3. In dist\ trovi: Preventivi-Botosan-Setup-1.0.0.exe
+3. In dist\ trovi: Preventivi-Botosan-Setup-1.1.0.exe
    E' l'installer: lo lanci e il programma si installa con
    icona sul desktop e nel menu Start.
 

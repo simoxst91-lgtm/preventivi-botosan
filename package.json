@@ -1,6 +1,6 @@
 {
   "name": "preventivi-botosan",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generatore preventivi Botosan Multiservizi",
   "main": "main.js",
   "author": "Botosan Multiservizi",
