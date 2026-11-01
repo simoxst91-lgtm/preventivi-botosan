@@ -13,6 +13,12 @@
     <strong>PREVENTIVI</strong>
     <span>Botosan Multiservizi</span>
   </div>
+  <div class="contatore" title="Numerazione automatica dei preventivi">
+    <div class="cnt-num"><span class="cnt-lab">PREVENTIVO N.</span><strong id="c-numero">—</strong></div>
+    <div class="cnt-sep"></div>
+    <div class="cnt-num"><span class="cnt-lab">EMESSI <span id="c-anno"></span></span><strong id="c-emessi">0</strong></div>
+  </div>
+
   <div class="topbar-actions">
     <div id="agg-box" class="agg" title="Controlla aggiornamenti">
       <span id="agg-testo">v…</span>
@@ -128,12 +134,12 @@
       <button id="btn-chiudi" class="btn ghost small">Chiudi</button>
     </div>
     <div class="tabs">
-      <button class="tab attiva" data-tab="pdf">PDF salvati</button>
+      <button class="tab attiva" data-tab="pdf">Storico per mese</button>
       <button class="tab" data-tab="bozze">Bozze</button>
     </div>
     <div id="lista-pdf" class="lista"></div>
     <div id="lista-bozze" class="lista hidden"></div>
-    <button id="btn-cartella" class="btn ghost small">Apri cartella su disco</button>
+    <button id="btn-cartella" class="btn ghost small">Apri cartella archivio su disco</button>
   </div>
 </div>
 

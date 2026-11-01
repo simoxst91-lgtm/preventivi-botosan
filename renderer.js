@@ -159,10 +159,11 @@ $('btn-pdf').onclick = async () => {
     numero: d.numero,
     cliente: d.cliente
   });
+  await aggiornaContatore();
   toast(
     res.percorso
-      ? 'PDF salvato. Copia di sicurezza nell’archivio del programma.'
-      : 'Salvataggio annullato: resta comunque la copia nell’archivio del programma.'
+      ? 'PDF salvato. Copia di sicurezza nell’archivio del mese.'
+      : 'Salvataggio annullato: resta comunque la copia nell’archivio del mese.'
   );
 };
 
@@ -188,6 +189,7 @@ function nuovoModulo() {
   $('righe').innerHTML = '';
   for (let i = 0; i < 4; i++) aggiungiRiga();
   ricalcola();
+  aggiornaContatore(true);
 }
 
 /* ---------- ARCHIVIO ---------- */
@@ -209,20 +211,49 @@ async function mostraTab(tab) {
   $('lista-bozze').classList.toggle('hidden', tab !== 'bozze');
 
   if (tab === 'pdf') {
-    const files = await window.api.elencoArchivio();
-    $('lista-pdf').innerHTML = files.length
+    const mesi = await window.api.elencoArchivio();
+    const cont = $('lista-pdf');
+    cont.innerHTML = mesi.length
       ? ''
       : '<div class="vuoto">Nessun preventivo in archivio.</div>';
-    files.forEach((f) => {
-      const d = document.createElement('div');
-      d.className = 'voce-file';
-      d.innerHTML = `<span>${f.nome}</span>`;
-      const b = document.createElement('button');
-      b.className = 'btn ghost small';
-      b.textContent = 'Apri';
-      b.onclick = () => window.api.apriFile(f.percorso);
-      d.appendChild(b);
-      $('lista-pdf').appendChild(d);
+
+    mesi.forEach((m, i) => {
+      const box = document.createElement('div');
+      box.className = 'mese' + (i === 0 ? ' aperto' : '');
+
+      const testa = document.createElement('div');
+      testa.className = 'mese-testa';
+      testa.innerHTML =
+        `<span class="freccia">&#9654;</span><span>${m.mese}</span>` +
+        `<span class="quanti">${m.file.length} preventiv${m.file.length === 1 ? 'o' : 'i'}</span>`;
+      testa.onclick = (e) => {
+        if (e.target.closest('.btn')) return;
+        box.classList.toggle('aperto');
+      };
+
+      const apriCart = document.createElement('button');
+      apriCart.className = 'btn ghost small';
+      apriCart.textContent = 'Cartella';
+      apriCart.title = 'Apri su disco la cartella di questo mese';
+      apriCart.onclick = () => window.api.apriCartella(m.cartella);
+      testa.appendChild(apriCart);
+
+      const corpo = document.createElement('div');
+      corpo.className = 'mese-corpo';
+      m.file.forEach((f) => {
+        const d = document.createElement('div');
+        d.className = 'voce-file';
+        d.innerHTML = `<span>${f.nome}</span>`;
+        const b = document.createElement('button');
+        b.className = 'btn ghost small';
+        b.textContent = 'Apri';
+        b.onclick = () => window.api.apriFile(f.percorso);
+        d.appendChild(b);
+        corpo.appendChild(d);
+      });
+
+      box.append(testa, corpo);
+      cont.appendChild(box);
     });
   } else {
     const bozze = await window.api.elencoBozze();
@@ -253,6 +284,16 @@ async function mostraTab(tab) {
       $('lista-bozze').appendChild(d);
     });
   }
+}
+
+/* ---------- CONTATORE PREVENTIVI ---------- */
+async function aggiornaContatore(scriviNelCampo = false) {
+  const c = await window.api.contatore();
+  $('c-numero').textContent = c.numero;
+  $('c-anno').textContent = c.anno;
+  $('c-emessi').textContent = c.emessiAnno;
+  if (scriviNelCampo && !$('numero').value) $('numero').value = c.numero;
+  return c;
 }
 
 /* ---------- AGGIORNAMENTI ---------- */
@@ -316,6 +357,7 @@ window.api.suStatoAggiornamento((d) => {
     });
   } catch (_) {}
 
+  await aggiornaContatore();
   versioneCorrente = await window.api.versioneApp();
   mostraAgg('', 'v' + versioneCorrente, 'Clicca per controllare gli aggiornamenti');
 

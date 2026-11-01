@@ -11,6 +11,50 @@ function cartellaArchivio() {
   return dir;
 }
 
+const MESI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+              'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+// Ogni mese ha la sua sottocartella:  Archivio\2026-11 Novembre
+function cartellaMese(d = new Date()) {
+  const nome = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')} ${MESI[d.getMonth()]}`;
+  const dir = path.join(cartellaArchivio(), nome);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  return dir;
+}
+
+// ---- Contatore progressivo dei preventivi -----------------------------------
+function fileContatore() {
+  return path.join(app.getPath('userData'), 'contatore.json');
+}
+
+function leggiContatore() {
+  try {
+    return JSON.parse(fs.readFileSync(fileContatore(), 'utf8'));
+  } catch (_) {
+    return {};
+  }
+}
+
+function numeroProssimo() {
+  const anno = new Date().getFullYear();
+  const c = leggiContatore();
+  const ultimo = c[anno] || 0;
+  return {
+    anno,
+    progressivo: ultimo + 1,
+    numero: `${anno}-${String(ultimo + 1).padStart(3, '0')}`,
+    emessiAnno: ultimo
+  };
+}
+
+function avanzaContatore() {
+  const anno = new Date().getFullYear();
+  const c = leggiContatore();
+  c[anno] = (c[anno] || 0) + 1;
+  fs.writeFileSync(fileContatore(), JSON.stringify(c, null, 2));
+  return c[anno];
+}
+
 let win;
 
 function creaFinestra() {
@@ -143,9 +187,12 @@ ipcMain.handle('salva-pdf', async (_e, { html, numero, cliente }) => {
     `Preventivo_${numero || 'senza-numero'}_${cliente || 'cliente'}`
   );
 
-  // 1) copia di archivio in AppData (sempre, in automatico)
-  const fileArchivio = path.join(cartellaArchivio(), `${stamp}_${base}.pdf`);
+  // 1) copia di archivio in AppData, nella cartella del mese (sempre, automatica)
+  const fileArchivio = path.join(cartellaMese(data), `${stamp}_${base}.pdf`);
   fs.writeFileSync(fileArchivio, pdf);
+
+  // il preventivo e' stato emesso: avanza il contatore progressivo
+  avanzaContatore();
 
   // 2) copia scelta dall'utente
   const { canceled, filePath } = await dialog.showSaveDialog(win, {
@@ -167,17 +214,41 @@ ipcMain.handle('apri-archivio', async () => {
   return cartellaArchivio();
 });
 
+// Storico diviso per mese: restituisce l'elenco dei mesi con i loro PDF
 ipcMain.handle('elenco-archivio', async () => {
-  const dir = cartellaArchivio();
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.toLowerCase().endsWith('.pdf'))
-    .map((f) => {
-      const st = fs.statSync(path.join(dir, f));
-      return { nome: f, data: st.mtime.getTime(), percorso: path.join(dir, f) };
-    })
-    .sort((a, b) => b.data - a.data);
+  const base = cartellaArchivio();
+  const mesi = [];
+
+  const leggiPdf = (dir) =>
+    fs
+      .readdirSync(dir)
+      .filter((f) => f.toLowerCase().endsWith('.pdf'))
+      .map((f) => {
+        const st = fs.statSync(path.join(dir, f));
+        return { nome: f, data: st.mtime.getTime(), percorso: path.join(dir, f) };
+      })
+      .sort((a, b) => b.data - a.data);
+
+  for (const voce of fs.readdirSync(base, { withFileTypes: true })) {
+    if (!voce.isDirectory()) continue;
+    const file = leggiPdf(path.join(base, voce.name));
+    if (file.length) mesi.push({ mese: voce.name, cartella: path.join(base, voce.name), file });
+  }
+
+  // vecchi PDF rimasti nella cartella principale (archivi precedenti)
+  const sciolti = leggiPdf(base);
+  if (sciolti.length)
+    mesi.push({ mese: 'Senza mese', cartella: base, file: sciolti });
+
+  mesi.sort((a, b) => b.mese.localeCompare(a.mese));
+  return mesi;
 });
+
+ipcMain.handle('apri-cartella', async (_e, percorso) => {
+  await shell.openPath(percorso || cartellaArchivio());
+});
+
+ipcMain.handle('contatore', async () => numeroProssimo());
 
 ipcMain.handle('apri-file', async (_e, percorso) => {
   await shell.openPath(percorso);

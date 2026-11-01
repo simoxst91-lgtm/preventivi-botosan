@@ -119,3 +119,30 @@ textarea{width:100%;resize:vertical}
 .agg.pronto{background:#e6f4ec;border-color:#9ccbb0;color:#1d6b43;font-weight:700}
 .agg.lavoro{background:#fff6e5;border-color:#e4cf9c;color:#8a6a1f}
 .agg.errore{background:#fbeaea;border-color:#e2b6b6;color:#9b3d3d}
+
+/* ---- contatore preventivi ---- */
+.contatore{
+  display:flex;align-items:center;gap:14px;margin-left:26px;
+  background:var(--azz);border:1px solid var(--bordo);border-radius:8px;
+  padding:6px 14px;
+}
+.cnt-num{display:flex;flex-direction:column;line-height:1.15}
+.cnt-lab{font-size:8.5px;letter-spacing:.8px;color:#7a8aa3;font-weight:700}
+.cnt-num strong{font-size:15px;color:var(--blu)}
+.cnt-sep{width:1px;height:26px;background:var(--bordo)}
+
+/* ---- storico per mese ---- */
+.mese{border:1px solid var(--bordo);border-radius:7px;overflow:hidden}
+.mese-testa{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  background:var(--azz);padding:9px 12px;font-size:12.5px;font-weight:700;color:var(--blu);
+}
+.mese-testa:hover{background:#e3eaf5}
+.mese-testa .freccia{font-size:10px;color:#7a8aa3;transition:transform .15s}
+.mese.aperto .freccia{transform:rotate(90deg)}
+.mese-testa .quanti{
+  margin-left:auto;font-weight:600;font-size:11px;color:#5a6b86;
+  background:#fff;border:1px solid var(--bordo);border-radius:99px;padding:1px 9px;
+}
+.mese-corpo{display:none;padding:8px;flex-direction:column;gap:6px}
+.mese.aperto .mese-corpo{display:flex}
