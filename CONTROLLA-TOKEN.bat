@@ -1,4 +1,5 @@
 @echo off
+setlocal
 title Preventivi Botosan - controllo token GitHub
 cd /d "%~dp0"
 
@@ -7,9 +8,15 @@ echo   CONTROLLO TOKEN GITHUB
 echo ==========================================
 echo.
 
+if exist token-github.txt (
+  set /p GH_TOKEN=<token-github.txt
+  echo Uso il token di Botosan dal file token-github.txt
+) else (
+  echo Nessun file token-github.txt: uso la variabile GH_TOKEN di Windows.
+)
+
 if "%GH_TOKEN%"=="" (
-  echo Nessun token impostato in questa finestra.
-  echo Se lo hai appena messo con setx, devi CHIUDERE e RIAPRIRE il Prompt.
+  echo Nessun token disponibile.
   goto fine
 )
 

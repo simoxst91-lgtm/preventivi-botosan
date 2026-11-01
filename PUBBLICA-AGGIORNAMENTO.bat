@@ -15,22 +15,46 @@ if errorlevel 1 (
   goto fine_errore
 )
 
-if "%GH_TOKEN%"=="" (
-  echo ERRORE: manca il token GitHub.
+rem ------------------------------------------------------------------
+rem  TOKEN: questo programma usa il PROPRIO token, letto dal file
+rem  token-github.txt che sta in questa cartella.
+rem  Cosi' la variabile GH_TOKEN di Windows resta quella di Gama
+rem  e i due programmi non si danno fastidio.
+rem  setlocal fa si' che la modifica valga solo dentro questo script.
+rem ------------------------------------------------------------------
+if exist token-github.txt (
+  set /p GH_TOKEN=<token-github.txt
+  echo Token: uso quello di Botosan ^(token-github.txt^)
+) else (
+  echo ERRORE: manca il file token-github.txt in questa cartella.
   echo.
-  echo Apri il Prompt dei comandi e lancia una volta sola:
-  echo    setx GH_TOKEN "il_tuo_token_github"
-  echo poi CHIUDI e RIAPRI la finestra e rilancia questo file.
+  echo Crea un file di testo chiamato  token-github.txt
+  echo e scrivici dentro SOLO il token di GitHub dell'account
+  echo simoxst91-lgtm ^(una riga, niente spazi^).
   echo.
   echo Il token si crea su https://github.com/settings/tokens
-  echo ^(token classic, spunta solo "repo"^)
+  echo ^(Generate new token classic, spunta solo "repo"^)
   goto fine_errore
 )
 
+echo.
+echo Controllo che il token sia dell'account giusto...
+for /f "delims=" %%a in ('curl -s -o nul -w "%%{http_code}" -H "Authorization: Bearer !GH_TOKEN!" https://api.github.com/repos/simoxst91-lgtm/preventivi-botosan') do set CODICE=%%a
+if not "!CODICE!"=="200" (
+  echo.
+  echo ERRORE: con questo token GitHub risponde !CODICE! invece di 200.
+  echo Il token non ha accesso a simoxst91-lgtm/preventivi-botosan:
+  echo probabilmente e' di un altro account.
+  echo Lancia CONTROLLA-TOKEN.bat per vedere a chi appartiene.
+  goto fine_errore
+)
+echo Token corretto, accesso al repository confermato.
+
+echo.
 echo Chiudo il programma se e' aperto...
 taskkill /IM "Preventivi Botosan.exe" /F >nul 2>&1
-rem il comando qui sopra fallisce se il programma non era aperto: e' normale,
-rem questa riga azzera il codice di errore cosi' non blocca i controlli dopo
+rem taskkill fallisce se il programma non era aperto: e' normale,
+rem questa riga azzera il codice di errore
 ver >nul
 
 for /f "tokens=2 delims=:," %%a in ('findstr /C:"\"version\"" package.json') do (
@@ -38,6 +62,7 @@ for /f "tokens=2 delims=:," %%a in ('findstr /C:"\"version\"" package.json') do 
   set VER=!VER: =!
   set VER=!VER:"=!
 )
+echo.
 echo Versione attuale: !VER!
 echo.
 set "NUOVA="
